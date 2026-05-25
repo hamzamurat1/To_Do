@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a3a4a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Planlayıcı">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <title>Haftalık Planlayıcı</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header id="topBar">
+    <span class="title">Haftalık Planlayıcı</span>
+    <div id="weekNav">
+      <button id="prev">⬅</button>
+      <span id="weekLabel"></span>
+      <button id="next">➡</button>
+    </div>
+    <button id="deleteAllDays">🗑️ Tüm Günleri Sil</button>
+    <button id="showStats">📊 İstatistik</button>
+    <button id="showRecurring">🔁 Tekrarlayan</button>
+  </header>
+
+  <div id="board"></div>
+
+  <!-- Mobil swipe göstergesi -->
+  <div id="swipeNav">
+    <button id="swipePrev">‹</button>
+    <div id="swipeInfo">
+      <span id="activeDayLabel"></span>
+      <div id="swipeDots"></div>
+    </div>
+    <button id="swipeNext">›</button>
+  </div>
+
+  <div id="bottom">
+
+    <!-- SOL: Görev Havuzu -->
+    <div id="leftPanel">
+      <h4>Görev Havuzu</h4>
+      <div class="left-row">
+        <button id="togglePool">Aktiviteleri Göster</button>
+        <button id="resetPool">🗑️ Sıfırla</button>
+      </div>
+      <div class="left-inputs">
+        <input id="taskName" placeholder="Görev adı">
+        <input id="taskTime" type="time">
+      </div>
+      <button id="savePool">Görev Kaydet</button>
+      <div id="pool"></div>
+    </div>
+
+    <!-- ORTA: Pomodoro -->
+    <div id="pomodoro">
+      <h4>Pomodoro Sayacı</h4>
+      <div class="pomo-presets">
+        <div class="preset-group">
+          <span class="preset-label break-label">Mola</span>
+          <button class="preset-btn break-btn" data-min="5">5 dk</button>
+          <button class="preset-btn break-btn" data-min="10">10 dk</button>
+          <button class="preset-btn break-btn" data-min="15">15 dk</button>
+        </div>
+        <div class="preset-group">
+          <span class="preset-label work-label">Çalışma</span>
+          <button class="preset-btn work-btn" data-min="25">25 dk</button>
+          <button class="preset-btn work-btn" data-min="50">50 dk</button>
+          <button class="preset-btn work-btn" data-min="60">1 saat</button>
+        </div>
+      </div>
+      <div class="pomo-custom">
+        <input id="customMin" type="number" placeholder="dk" min="0" max="999">
+        <span>:</span>
+        <input id="customSec" type="number" placeholder="sn" min="0" max="59">
+        <button id="customSet">Ayarla</button>
+      </div>
+      <div id="pomoDisplay" class="idle">00:00</div>
+      <button id="pipBtn" title="Yüzen pencere">⧉ PiP</button>
+      <div class="pomo-btns">
+        <button id="pomoStart">Başlat</button>
+        <button id="pomoStop">Durdur</button>
+        <button id="pomoReset">Sıfırla</button>
+      </div>
+    </div>
+
+    <!-- SAĞ: Haftaya Ekle -->
+    <div id="rightPanel">
+      <h4>Haftaya Ekle</h4>
+      <button id="selectAllDays">Hepsini Seç</button>
+      <div id="dayList"></div>
+      <div class="right-bottom">
+        <select id="poolSelect"></select>
+        <input type="number" id="repeatCount" placeholder="Hafta" min="1">
+        <button id="assign">Ekle</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- İstatistik Modalı -->
+  <div id="statsModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span>📊 Haftalık İstatistik</span>
+        <button id="closeStats">✕</button>
+      </div>
+      <div class="stats-summary">
+        <div class="stat-card" id="statTotal"></div>
+        <div class="stat-card" id="statDone"></div>
+        <div class="stat-card" id="statRate"></div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="statsChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tekrarlayan Görevler Modalı -->
+  <div id="recurringModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span>🔁 Tekrarlayan Görevler</span>
+        <button id="closeRecurring">✕</button>
+      </div>
+
+      <!-- Açıklama -->
+      <p class="rec-desc">Bir kez ayarla, her hafta tek tıkla otomatik doldur.</p>
+
+      <!-- Yeni kural ekle -->
+      <div class="rec-add-box">
+        <div class="rec-add-row">
+          <select id="recPoolSelect"></select>
+        </div>
+        <div class="rec-days">
+          <span class="rec-day-label">Her</span>
+          <div class="rec-day-btn" data-day="1">Pzt</div>
+          <div class="rec-day-btn" data-day="2">Sal</div>
+          <div class="rec-day-btn" data-day="3">Çar</div>
+          <div class="rec-day-btn" data-day="4">Per</div>
+          <div class="rec-day-btn" data-day="5">Cum</div>
+          <div class="rec-day-btn" data-day="6">Cmt</div>
+          <div class="rec-day-btn" data-day="0">Paz</div>
+          <div class="rec-day-btn rec-select-all" id="recSelectAll">Hepsi</div>
+        </div>
+        <button id="recSave">+ Kural Kaydet</button>
+      </div>
+
+      <!-- Bu haftayı doldur -->
+      <div class="rec-generate-box">
+        <button id="recThisWeek">⚡ Bu Haftayı Otomatik Doldur</button>
+        <div class="rec-generate-row">
+          <input type="number" id="recWeeks" placeholder="Hafta sayısı" min="1" max="52">
+          <button id="recGenerate">🗓️ İleri Haftalara Ekle</button>
+        </div>
+      </div>
+
+      <!-- Liste -->
+      <div class="rec-list-header">
+        <span>Kayıtlı Kurallar</span>
+        <button id="recRefresh">↻</button>
+      </div>
+      <div id="recList"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js")
+          .then(() => console.log("✅ Service Worker aktif"))
+          .catch(e => console.log("SW hatası:", e));
+      });
+    }
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

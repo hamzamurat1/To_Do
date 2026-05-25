@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Haftalık Planlayıcı</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>Haftalık Planlayıcı</header>
+
+  <div id="weekNav">
+    <button id="prev">⬅</button>
+    <span id="weekLabel"></span>
+    <button id="next">➡</button>
+  </div>
+
+  <div id="board"></div>
+
+  <div id="bottom">
+    <div id="leftPanel">
+      <h4>Görev Havuzu</h4>
+      <input id="taskName" placeholder="Görev">
+      <input id="taskTime" type="time">
+      <button id="savePool">Görev Kaydet</button>
+      <div id="pool"></div>
+    </div>
+    <div id="pomodoro">
+      <h4>Pomodoro Sayacı</h4>
+
+      <input id="pomoMinute" type="number" placeholder="Dakika" min="1">
+      <input id="pomoSecond" type="number" placeholder="Saniye" min="0" max="59">
+
+      <div id="pomoDisplay">00:00</div>
+
+      <button id="pomoStart">Başlat</button>
+      <button id="pomoStop">Durdur</button>
+      <button id="pomoReset">Sıfırla</button>
+    </div>
+
+    <div id="rightPanel">
+      <h4>Haftaya Ekle</h4>
+      <select id="daySelect"></select>
+      <select id="poolSelect"></select>
+      <button id="assign">Ekle</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,138 @@
+body{
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:white;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+header{ text-align:center; padding:10px; font-size:22px; }
+
+#weekNav{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:5px;
+}
+
+button{
+  background:rgba(255,255,255,0.2);
+  border:1px solid rgba(255,255,255,0.4);
+  color:white;
+  padding:6px 10px;
+  border-radius:10px;
+  cursor:pointer;
+  backdrop-filter:blur(6px);
+  font-size:12px;
+}
+
+#board{
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+  padding:10px;
+}
+
+.day{
+  background:rgba(255,255,255,0.15);
+  border-radius:12px;
+  padding:6px;
+  display:flex;
+  flex-direction:column;
+}
+
+.day h3{ text-align:center; font-size:13px; margin:4px 0; }
+
+.task{
+  background:rgba(255,255,255,0.25);
+  margin:3px 0;
+  padding:4px;
+  border-radius:8px;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.task.done{ background:rgba(0,255,0,0.5); }
+
+#bottom{
+  display:flex;
+  justify-content:space-between;
+  padding:10px;
+  gap:10px;
+}
+
+#leftPanel,#rightPanel{
+  background:rgba(255,255,255,0.15);
+  padding:10px;
+  border-radius:12px;
+  width:45%;
+}
+
+input,select{
+  width:98%;
+  margin-top:6px;
+  padding:4px 6px;
+  border-radius:6px;
+  border:none;
+  font-size:12px;
+  height:28px;
+}
+
+#leftPanel button,
+#rightPanel button{
+  width:100%;
+  margin-top:6px;
+}
+
+#pool .task{ margin-top:4px; }
+
+#pomodoro{
+  background:rgba(255,255,255,0.15);
+  padding:10px;
+  border-radius:12px;
+  width:30%;
+  text-align:center;
+}
+
+#pomodoro input{
+  width:48%;
+  margin:4px 1%;
+}
+
+#pomoDisplay{
+  font-size:28px;
+  margin:10px 0;
+  font-weight:bold;
+}
+
+/* 🔥 Hover efektleri */
+button{
+  transition:all 0.2s ease;
+}
+
+button:hover{
+  background:rgba(255,255,255,0.4);
+  transform:scale(1.05);
+}
+
+.task{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.deleteBtn{
+  background:rgba(255,0,0,0.4);
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+  padding:2px 6px;
+}
+
+.deleteBtn:hover{
+  background:rgba(255,0,0,0.7);
+}

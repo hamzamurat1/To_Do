@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($lnk = New-Object -ComObject WScript.Shell; $lnk.CreateShortcut\\(\"D:\\\\Masaüstü\\\\ToDo_Web\\\\index.html - Kısayol.lnk\"\\).TargetPath)"
+    ]
+  }
+}
